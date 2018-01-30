@@ -1,39 +1,44 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addMovie } from '../actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addMovie } from "../actions";
 
 class MoviesNew extends Component {
-
   constructor() {
     super();
 
     this.state = {
-      title: ''
+      title: ""
     };
   }
 
   handleOnSubmit = event => {
     event.preventDefault();
-    this.props.addMovie(this.state);
-  }
+    // Destructure addMovie and history from the components props
+    const { addMovie, history } = this.props;
+    // Create the movie with the Redux action
+    addMovie(this.state);
+    // redirect to /movies route
+    history.push("/movies");
+  };
 
   handleOnChange = event => {
     this.setState({
       title: event.target.value
     });
-  }
+  };
 
-  render(){
+  render() {
     return (
-      <form style={{ marginTop: '16px' }} onSubmit={this.handleOnSubmit} >
-        <input 
-          type="text" 
-          onChange={this.handleOnChange} 
-          placeholder="Add a Movie" />
+      <form style={{ marginTop: "16px" }} onSubmit={this.handleOnSubmit}>
+        <input
+          type="text"
+          onChange={this.handleOnChange}
+          placeholder="Add a Movie"
+        />
         <input type="submit" value="Add Movie" />
       </form>
     );
   }
 }
 
-export default connect(null, { addMovie })(MoviesNew)
+export default connect(null, { addMovie })(MoviesNew);
